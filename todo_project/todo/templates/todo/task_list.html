@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Todo List</title>
+    <link rel="stylesheet" href="/static/todo/css/style.css">
+</head>
+<body>
+    <h1>My Tasks</h1>
+    <form method="POST">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Task</button>
+    </form>
+    <ul>
+        {% for task in tasks %}
+        <li>
+            {{ task.title }} - {% if task.completed %}Done{% else %}Pending{% endif %}
+            <a href="{% url 'delete_task' task.id %}">Delete</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'logout' %}">Logout</a>
+</body>
+</html>

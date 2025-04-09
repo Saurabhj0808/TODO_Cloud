@@ -1,0 +1,47 @@
+{% extends 'todo/base.html' %}
+{% block title %}Edit Task{% endblock %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="columns is-centered">
+  <div class="column is-8">
+    <div class="box">
+      <h2 class="title is-3 has-text-centered">Edit Task</h2>
+      <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+          {% if field.name == 'completed' %}
+            <div class="field">
+              <div class="control">
+                <label class="checkbox is-flex is-align-items-center" style="gap: 0.5rem;">
+                  {{ field }} <span>{{ field.label }}</span>
+                </label>
+              </div>
+              {% if field.errors %}
+                <p class="help is-danger">{{ field.errors|striptags }}</p>
+              {% endif %}
+            </div>
+          {% else %}
+            <div class="field">
+              <label class="label">{{ field.label }}</label>
+              <div class="control">
+                {{ field|add_class:"input" }}
+              </div>
+              {% if field.errors %}
+                <p class="help is-danger">{{ field.errors|striptags }}</p>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+        <div class="field">
+          <div class="control">
+            <button type="submit" class="button is-warning is-fullwidth">Update Task</button>
+          </div>
+        </div>
+      </form>
+      <div class="has-text-centered mt-3">
+        <a href="{% url 'task_list' %}" class="button is-text">← Back to Task List</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

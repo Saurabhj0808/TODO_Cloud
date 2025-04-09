@@ -1,0 +1,39 @@
+
+{% extends 'todo/base.html' %}
+{% block title %}Your Tasks{% endblock %}
+{% block content %}
+<div class="columns is-centered">
+  <div class="column is-10">
+    <div class="is-flex is-justify-content-space-between mb-4">
+      <h2 class="title is-3">Your Tasks</h2>
+      <a href="{% url 'logout' %}" class="button is-danger is-light">Logout</a>
+    </div>
+    <a href="{% url 'add_task' %}" class="button is-primary mb-4">+ Add Task</a>
+    {% if tasks %}
+    <div class="box">
+      {% for task in tasks %}
+      <div class="box mb-3">
+        <div class="is-flex is-justify-content-space-between is-align-items-center">
+          <div>
+            <p class="title is-5 {% if task.completed %}has-text-grey-light has-text-line-through{% endif %}">{{ task.title }}</p>
+            {% if task.due_date %}
+            <p class="subtitle is-7 has-text-grey">Due: {{ task.due_date }}</p>
+            {% endif %}
+            {% if task.priority %}
+            <span class="tag is-info is-light">{{ task.priority }}</span>
+            {% endif %}
+          </div>
+          <div class="buttons">
+            <a href="{% url 'edit_task' task.id %}" class="button is-small is-info is-light">Edit</a>
+            <a href="{% url 'delete_task' task.id %}" class="button is-small is-danger is-light">Delete</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="has-text-grey">No tasks added yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
